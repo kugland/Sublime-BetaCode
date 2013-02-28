@@ -1,7 +1,7 @@
 # coding=UTF-8
 
 # Sublime-BetaCode, a plugin to help entering polytonic Greek into Sublime Text.
-# Copyright (C) 2003  André von Kugland
+# Copyright (C) 2013  André von Kugland
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
