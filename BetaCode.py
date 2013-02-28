@@ -59,7 +59,7 @@ class BetaCode(sublime_plugin.TextCommand):
       ('=' , u'\u0342'), # Perispomeni
       ('|' , u'\u0345'), # Ypogegrammeni
       ('_' , u'\u0304'), # Macron
-      ('^' , u'\u0306'), # Breve,
+      ('^' , u'\u0306'), # Breve
       ('+' , u'\u0308')  # Diaeresis
     ]
     str = re.sub(r'[)(\\/=|_^+]+', norm_accents, str)
