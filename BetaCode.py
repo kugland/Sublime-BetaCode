@@ -23,8 +23,8 @@ import sublime, sublime_plugin, unicodedata, re
 #   Ou(/tw toi/nun kai\ to\ th=s yuxh=s w(=de no/ei: o(/tan me\n ou(= katala/mpei
 #   a)lh/qeia/ te kai\ to\ o)/n, ei)s tou=to a)perei/shtai, e)no/hse/n te kai\
 #   e)/gnw au)to\ kai\ nou=n e)/xein fai/netai: o(/tan de\ ei)s to\ tw=| sko/tw|
-#   kekrame/non, to\ gigno/meno/n te kai\ a)pollu/menon, doca/\ei te kai\
-#   a)mbluw/ttei a)/nw kai\ ka/tw ta\s do/cas metaba/llon, kai\ e)oiken au)=
+#   kekrame/non, to\ gigno/meno/n te kai\ a)pollu/menon, doca/\zei te kai\
+#   a)mbluw/ttei a)/nw kai\ ka/tw ta\s do/cas metaba/llon, kai\ e)/oiken au)=
 #   nou=n ou)k e)/xonti.
 #
 # Becomes:
@@ -72,8 +72,8 @@ class BetaCode(sublime_plugin.TextCommand):
   # Translate Beta-Code to Greek and then add accents
   @staticmethod
   def betacode_transl(str):
-    latin = u'ABGDEVZHQIKLMNCOPRSTUFXYWabgdevzhqiklmncoprsjtufxyw:'
-    greek = u'ΑΒΓΔΕϜΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩαβγδεϝζηθικλμνξοπρσςτυφχψω·'
+    latin = u'ABGDEVZHQIKLMNCOPRSTUFXYW:abgdevzhqiklmncoprsjtufxyw'
+    greek = u'ΑΒΓΔΕϜΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ·αβγδεϝζηθικλμνξοπρσςτυφχψω'
     transl_dict = dict(((latin[i], greek[i]) for i in xrange(0, len(latin))))
     str = re.sub(r's\b', 'j', str) # Substitute sigma for sigma final when needed.
     str = ''.join((transl_dict.has_key(x) and transl_dict[x] or x for x in str))
