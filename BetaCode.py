@@ -43,11 +43,11 @@ class BetaCode(sublime_plugin.TextCommand):
     aspr = ''; dial = ''; tone = ''; iota = ''; qunt = ''
     str = str.group(0)
     for i in xrange(0, len(str)):
-      if str[i] in ('(', ')'):        aspr = str[i]
-      if str[i] == '+':               dial = str[i]
-      if str[i] in ('/', '\\', '='):  tone = str[i]
-      if str[i] == '|':               iota = str[i]
-      if str[i] in ('_', '^'):        qunt = str[i]
+      if str[i] in ('(', ')')       : aspr = str[i]
+      if str[i] == '+'              : dial = str[i]
+      if str[i] in ('/', '\\', '=') : tone = str[i]
+      if str[i] == '|'              : iota = str[i]
+      if str[i] in ('_', '^')       : qunt = str[i]
     return aspr + dial + tone + iota + qunt
 
   # Replace accents with combining diacritics and normalize the string.
