@@ -65,7 +65,7 @@ class BetaCode(sublime_plugin.TextCommand):
       '+' : u'\u0308'  # Diæresis
     }
     str = re.sub(r'[)(\\/=|_^+]+', BetaCode.norm_accents, str)
-    str = ''.join(map(lambda x: accents.has_key(x) and accents[x] or x, str))
+    str = ''.join((accents.has_key(x) and accents[x] or x for x in str))
     str = unicodedata.normalize('NFKC', str)
     return str
 
@@ -76,7 +76,7 @@ class BetaCode(sublime_plugin.TextCommand):
     greek = u'ΑΒΓΔΕϜΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩαβγδεϝζηθικλμνξοπρσςτυφχψω·'
     transl_dict = dict(((latin[i], greek[i]) for i in xrange(0, len(latin))))
     str = re.sub(r's\b', 'j', str) # Substitute sigma for sigma final when needed.
-    str = ''.join(map(lambda x: transl_dict.has_key(x) and transl_dict[x] or x, str))
+    str = ''.join((transl_dict.has_key(x) and transl_dict[x] or x for x in str))
     return BetaCode.betacode_accent(str)
 
   def run(self, edit):
