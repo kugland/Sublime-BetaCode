@@ -52,15 +52,15 @@ class BetaCode(sublime_plugin.TextCommand):
   # Replace accents with combining diacritics and normalize the string.
   def betacode_accent(str):
     accents = [
-      (')' , u'\u0313'), # Psili
-      ('(' , u'\u0314'), # Dasia
-      ('\\', u'\u0300'), # Varia
-      ('/' , u'\u0301'), # Oxia
-      ('=' , u'\u0342'), # Perispomeni
-      ('|' , u'\u0345'), # Ypogegrammeni
+      ('(' , u'\u0314'), # Spiritus lenis
+      (')' , u'\u0313'), # Spiritus asper
+      ('\\', u'\u0300'), # Grave accent
+      ('/' , u'\u0301'), # Acute accent
+      ('=' , u'\u0342'), # Circumflex accent
+      ('|' , u'\u0345'), # Iota subscript
       ('_' , u'\u0304'), # Macron
       ('^' , u'\u0306'), # Breve
-      ('+' , u'\u0308')  # Diaeresis
+      ('+' , u'\u0308')  # Diæresis
     ]
     str = re.sub(r'[)(\\/=|_^+]+', norm_accents, str)
     for latin, greek in accents:
