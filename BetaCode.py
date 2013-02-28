@@ -38,6 +38,7 @@ import sublime, sublime_plugin, unicodedata, re
 
 class BetaCode(sublime_plugin.TextCommand):
   # Reorders accents so that Unicode normalization will work.
+  @staticmethod
   def norm_accents(str):
     aspr = ''; dial = ''; tone = ''; iota = ''; qunt = ''
     str = str.group(0)
@@ -50,35 +51,36 @@ class BetaCode(sublime_plugin.TextCommand):
     return aspr + dial + tone + iota + qunt
 
   # Replace accents with combining diacritics and normalize the string.
+  @staticmethod
   def betacode_accent(str):
-    accents = [
-      ('(' , u'\u0314'), # Spiritus lenis
-      (')' , u'\u0313'), # Spiritus asper
-      ('\\', u'\u0300'), # Grave accent
-      ('/' , u'\u0301'), # Acute accent
-      ('=' , u'\u0342'), # Circumflex accent
-      ('|' , u'\u0345'), # Iota subscript
-      ('_' , u'\u0304'), # Macron
-      ('^' , u'\u0306'), # Breve
-      ('+' , u'\u0308')  # Diæresis
-    ]
-    str = re.sub(r'[)(\\/=|_^+]+', norm_accents, str)
-    for latin, greek in accents:
-      str = str.replace(latin, greek)
+    accents = {
+      '(' : u'\u0314', # Spiritus lenis
+      ')' : u'\u0313', # Spiritus asper
+      '\\': u'\u0300', # Grave accent
+      '/' : u'\u0301', # Acute accent
+      '=' : u'\u0342', # Circumflex accent
+      '|' : u'\u0345', # Iota subscript
+      '_' : u'\u0304', # Macron
+      '^' : u'\u0306', # Breve
+      '+' : u'\u0308'  # Diæresis
+    }
+    str = re.sub(r'[)(\\/=|_^+]+', BetaCode.norm_accents, str)
+    str = ''.join(map(lambda x: accents.has_key(x) and accents[x] or x, str))
     str = unicodedata.normalize('NFKC', str)
     return str
 
   # Translate Beta-Code to Greek and then add accents
+  @staticmethod
   def betacode_transl(str):
-    latin = u'ABGDEZHQIKLMNCOPRSTUFXYWabgdezhqiklmncoprsjtufxyw:'
-    greek = u'ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩαβγδεζηθικλμνξοπρσςτυφχψω·'
+    latin = u'ABGDEVZHQIKLMNCOPRSTUFXYWabgdevzhqiklmncoprsjtufxyw:'
+    greek = u'ΑΒΓΔΕϜΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩαβγδεϝζηθικλμνξοπρσςτυφχψω·'
+    transl_dict = dict(((latin[i], greek[i]) for i in xrange(0, len(latin))))
     str = re.sub(r's\b', 'j', str) # Substitute sigma for sigma final when needed.
-    for i in xrange(0, len(latin)):
-      str = str.replace(latin[i], greek[i])
-    return betacode_accent(str)
+    str = ''.join(map(lambda x: transl_dict.has_key(x) and transl_dict[x] or x, str))
+    return BetaCode.betacode_accent(str)
 
   def run(self, edit):
     for region in self.view.sel():
       substr = self.view.substr(region)
-      substr_beta = betacode_transl(unicode(substr))
+      substr_beta = BetaCode.betacode_transl(unicode(substr))
       self.view.replace(edit, region, substr_beta)
