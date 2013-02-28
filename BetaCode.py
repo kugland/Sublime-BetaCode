@@ -69,18 +69,13 @@ class BetaCode(sublime_plugin.TextCommand):
     str = unicodedata.normalize('NFKC', str)
     return str
 
-  @staticmethod
-  def uppercase(match):
-    str = match.group(1)
-    return str.upper()
-
   # Translate Beta-Code to Greek and then add accents
   @staticmethod
   def betacode_transl(str):
     latin = u'ABGDEVZHQIKLMNCOPRSJTUFXYW:abgdevzhqiklmncoprsjtufxyw'
     greek = u'ΑΒΓΔΕϜΖΗΘΙΚΛΜΝΞΟΠΡΣΣΤΥΦΧΨΩ·αβγδεϝζηθικλμνξοπρσςτυφχψω'
     transl_dict = dict(((latin[i], greek[i]) for i in xrange(0, len(latin))))
-    str = re.sub(r'\*([abgdevzhqiklmncoprsjtufxyw])', BetaCode.uppercase, str) # *a → A
+    str = re.sub(r'\*([abgdevzhqiklmncoprsjtufxyw])', lambda m: m.group(1).upper(), str) # *a → A
     str = re.sub(r's\b', 'j', str) # Substitute sigma for sigma final when needed.
     str = ''.join((transl_dict.has_key(x) and transl_dict[x] or x for x in str))
     return BetaCode.betacode_accent(str)
