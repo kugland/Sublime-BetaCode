@@ -39,9 +39,9 @@ import sublime, sublime_plugin, unicodedata, re
 class BetaCode(sublime_plugin.TextCommand):
   # Reorders accents so that Unicode normalization will work.
   @staticmethod
-  def norm_accents(str):
+  def norm_accents(match):
     aspr = ''; dial = ''; tone = ''; iota = ''; qunt = ''
-    str = str.group(0)
+    str = match.group(0)
     for i in xrange(0, len(str)):
       if str[i] in ('(', ')')       : aspr = str[i]
       if str[i] == '+'              : dial = str[i]
@@ -69,12 +69,18 @@ class BetaCode(sublime_plugin.TextCommand):
     str = unicodedata.normalize('NFKC', str)
     return str
 
+  @staticmethod
+  def uppercase(match):
+    str = match.group(1)
+    return str.upper()
+
   # Translate Beta-Code to Greek and then add accents
   @staticmethod
   def betacode_transl(str):
-    latin = u'ABGDEVZHQIKLMNCOPRSTUFXYW:abgdevzhqiklmncoprsjtufxyw'
-    greek = u'ΑΒΓΔΕϜΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ·αβγδεϝζηθικλμνξοπρσςτυφχψω'
+    latin = u'ABGDEVZHQIKLMNCOPRSJTUFXYW:abgdevzhqiklmncoprsjtufxyw'
+    greek = u'ΑΒΓΔΕϜΖΗΘΙΚΛΜΝΞΟΠΡΣΣΤΥΦΧΨΩ·αβγδεϝζηθικλμνξοπρσςτυφχψω'
     transl_dict = dict(((latin[i], greek[i]) for i in xrange(0, len(latin))))
+    str = re.sub(r'\*([abgdevzhqiklmncoprsjtufxyw])', BetaCode.uppercase, str) # *a → A
     str = re.sub(r's\b', 'j', str) # Substitute sigma for sigma final when needed.
     str = ''.join((transl_dict.has_key(x) and transl_dict[x] or x for x in str))
     return BetaCode.betacode_accent(str)
