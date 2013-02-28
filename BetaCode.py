@@ -64,7 +64,6 @@ class BetaCode(sublime_plugin.TextCommand):
     ]
     str = re.sub(r'[)(\\/=|_^+]+', norm_accents, str)
     for latin, greek in accents:
-      print latin, greek
       str = str.replace(latin, greek)
     str = unicodedata.normalize('NFKC', str)
     return str
