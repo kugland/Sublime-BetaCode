@@ -49,7 +49,7 @@ class BetaCode(sublime_plugin.TextCommand):
       if str[i] in ('_', '^')       and qunt == '': qunt = str[i]
     return aspr + dial + tone + iota + qunt
 
-  # Replace accents with combining diacriticals and normalize the string.
+  # Replace accents with combining diacritics and normalize the string.
   def betacode_accent(str):
     accents = [
       (')' , u'\u0313'), # Psili
