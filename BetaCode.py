@@ -1,7 +1,7 @@
 # coding=UTF-8
 
 # Sublime-BetaCode, a plugin to help entering polytonic Greek into Sublime Text.
-# Copyright (C) 2013  André von Kugland
+# Copyright (C) 2003  André von Kugland
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -43,11 +43,11 @@ class BetaCode(sublime_plugin.TextCommand):
     aspr = ''; dial = ''; tone = ''; iota = ''; qunt = ''
     str = str.group(0)
     for i in xrange(0, len(str)):
-      if str[i] in ('(', ')')       and aspr == '': aspr = str[i]
-      if str[i] == '+':                             dial = str[i]
-      if str[i] in ('/', '\\', '=') and tone == '': tone = str[i]
-      if str[i] == '|':                             iota = str[i]
-      if str[i] in ('_', '^')       and qunt == '': qunt = str[i]
+      if str[i] in ('(', ')'):        aspr = str[i]
+      if str[i] == '+':               dial = str[i]
+      if str[i] in ('/', '\\', '='):  tone = str[i]
+      if str[i] == '|':               iota = str[i]
+      if str[i] in ('_', '^'):        qunt = str[i]
     return aspr + dial + tone + iota + qunt
 
   # Replace accents with combining diacritics and normalize the string.
