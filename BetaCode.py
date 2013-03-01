@@ -19,6 +19,7 @@
 import sublime, sublime_plugin
 import sys, os
 
+# cf. http://theo.im/blog/2012/10/25/workaround-failed-to-import-unicodedata-in-sublime-text-2-under-windows/
 sys.path.append(os.path.dirname(sys.executable))
 
 import re, unicodedata
