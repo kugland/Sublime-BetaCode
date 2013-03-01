@@ -24,7 +24,7 @@ sys.path.append(os.path.dirname(sys.executable))
 
 import re, unicodedata
 
-# Usage example (taken from Plato, Republic VI. 508d)
+# Usage example (taken from Plato, Rep. 6.508d)
 #
 #   Ou(/tw toi/nun kai\ to\ th=s yuxh=s w(=de no/ei: o(/tan me\n ou(= katala/mpei
 #   a)lh/qeia/ te kai\ to\ o)/n, ei)s tou=to a)perei/shtai, e)no/hse/n te kai\
