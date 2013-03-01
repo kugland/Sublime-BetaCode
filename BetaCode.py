@@ -16,7 +16,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import sublime, sublime_plugin, unicodedata, re
+import sublime, sublime_plugin
+import sys, os
+
+sys.path.append(os.path.dirname(sys.executable))
+
+import re, unicodedata
 
 # Usage example (taken from Plato, Republic VI. 508d)
 #
