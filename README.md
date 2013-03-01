@@ -39,7 +39,8 @@ To use it add the following lines (or similar) to your Keybindings — User file
 {"keys": ["ctrl+b"], "command": "beta_code"}
 ```
 
-After that, select the desired region and click Ctrl+B.
+After that, select the desired region and click Ctrl+B (or the key sequence
+you used) and *voilà*.
 
 Example usage
 -------------
