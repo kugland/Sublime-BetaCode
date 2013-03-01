@@ -66,9 +66,9 @@ class BetaCode(sublime_plugin.TextCommand):
       '/' : u'\u0301', # Acute accent
       '=' : u'\u0342', # Circumflex accent
       '|' : u'\u0345', # Iota subscript
+      '+' : u'\u0308', # Diæresis
       '_' : u'\u0304', # Macron
-      '^' : u'\u0306', # Breve
-      '+' : u'\u0308'  # Diæresis
+      '^' : u'\u0306'  # Breve
     }
     str = re.sub(r'[)(\\/=|_^+]+', BetaCode.norm_accents, str)
     str = ''.join((accents.has_key(x) and accents[x] or x for x in str))
@@ -80,7 +80,7 @@ class BetaCode(sublime_plugin.TextCommand):
   def betacode_transl(str):
     latin = u'ABGDEVZHQIKLMNCOPRSJTUFXYW:abgdevzhqiklmncoprsjtufxyw'
     greek = u'ΑΒΓΔΕϜΖΗΘΙΚΛΜΝΞΟΠΡΣΣΤΥΦΧΨΩ·αβγδεϝζηθικλμνξοπρσςτυφχψω'
-    transl_dict = dict(((latin[i], greek[i]) for i in xrange(0, len(latin))))
+    transl_dict = dict(zip(latin, greek))
     str = re.sub(r'\*([abgdevzhqiklmncoprsjtufxyw])', lambda m: m.group(1).upper(), str) # *a → A
     str = re.sub(r's\b', 'j', str) # Substitute sigma for sigma final when needed.
     str = ''.join((transl_dict.has_key(x) and transl_dict[x] or x for x in str))
