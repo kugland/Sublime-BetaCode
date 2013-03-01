@@ -89,5 +89,5 @@ class BetaCode(sublime_plugin.TextCommand):
   def run(self, edit):
     for region in self.view.sel():
       substr = self.view.substr(region)
-      substr_beta = BetaCode.betacode_transl(unicode(substr))
+      substr_beta = BetaCode.betacode_transl(substr)
       self.view.replace(edit, region, substr_beta)
