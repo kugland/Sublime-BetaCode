@@ -1,6 +1,6 @@
 # coding=UTF-8
 
-# Sublime-BetaCode, a plugin to help entering polytonic Greek into Sublime Text.
+# Sublime-BetaCode, a plugin that allows typing polytonic Greek into ST.
 # Copyright (C) 2003  André von Kugland <kugland@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
@@ -43,9 +43,12 @@ import re, unicodedata
 #   νοῦν οὐκ ἔχοντι.
 
 class BetaCode(sublime_plugin.TextCommand):
-  # Reorders accents so that Unicode normalization will work.
+  """BetaCode is a plugin that allows typing polytonic Greek into ST."""
+
   @staticmethod
-  def norm_accents(match):
+  def diacritics_norm(match):
+    """Reorders diacritics so that Unicode normalization will work."""
+
     aspr = ''; dial = ''; tone = ''; iota = ''; qunt = ''
     str = match.group(0)
     for i in xrange(0, len(str)):
@@ -56,38 +59,38 @@ class BetaCode(sublime_plugin.TextCommand):
       if str[i] in ('_', '^')       : qunt = str[i]
     return aspr + dial + tone + iota + qunt
 
-  # Replace accents with combining diacritics and normalize the string.
   @staticmethod
-  def betacode_accent(str):
-    accents = {
-      '(' : u'\u0314', # Spiritus lenis
-      ')' : u'\u0313', # Spiritus asper
-      '\\': u'\u0300', # Grave accent
-      '/' : u'\u0301', # Acute accent
-      '=' : u'\u0342', # Circumflex accent
-      '|' : u'\u0345', # Iota subscript
-      '+' : u'\u0308', # Diæresis
-      '_' : u'\u0304', # Macron
-      '^' : u'\u0306'  # Breve
-    }
-    str = re.sub(r'[)(\\/=|_^+]+', BetaCode.norm_accents, str)
-    str = ''.join((accents.has_key(x) and accents[x] or x for x in str))
+  def betacode_transl(str):
+    """Translate Beta-Code to Greek and then add accents"""
+
+    latin = u'ABGDEVZHQIKLMNCOPRSJTUFXYW:abgdevzhqiklmncoprsjtufxyw'
+    greek = u'ΑΒΓΔΕϜΖΗΘΙΚΛΜΝΞΟΠΡΣΣΤΥΦΧΨΩ·αβγδεϝζηθικλμνξοπρσςτυφχψω'
+    accents = [
+      ('(' , u'\u0314'), # Spiritus lenis
+      (')' , u'\u0313'), # Spiritus asper
+      ('\\', u'\u0300'), # Grave accent
+      ('/' , u'\u0301'), # Acute accent
+      ('=' , u'\u0342'), # Circumflex accent
+      ('|' , u'\u0345'), # Iota subscript
+      ('+' , u'\u0308'), # Diæresis
+      ('_' , u'\u0304'), # Macron
+      ('^' , u'\u0306')  # Breve
+    ]
+    # Initialize translation dictionary.
+    transl_dict = dict(zip(latin, greek) + accents)
+    # Convert ‘*a’ to ‘A’
+    str = re.sub(r'\*([a-z])', lambda m: m.group(1).upper(), str)
+    # Substitute sigma for sigma final when needed.
+    str = re.sub(r's\b', 'j', str)
+    # Normalize diacritics, i.e. reorder them and remove the superfluous ones.
+    str = re.sub(r'[)(\\/=|_^+]+', BetaCode.diacritics_norm, str)
+    # Translate using the transl_dict table.
+    str = ''.join((transl_dict.has_key(x) and transl_dict[x] or x for x in str))
+    # Unicode normalization, make chars precomposed whenever possible.
     str = unicodedata.normalize('NFKC', str)
     return str
 
-  # Translate Beta-Code to Greek and then add accents
-  @staticmethod
-  def betacode_transl(str):
-    latin = u'ABGDEVZHQIKLMNCOPRSJTUFXYW:abgdevzhqiklmncoprsjtufxyw'
-    greek = u'ΑΒΓΔΕϜΖΗΘΙΚΛΜΝΞΟΠΡΣΣΤΥΦΧΨΩ·αβγδεϝζηθικλμνξοπρσςτυφχψω'
-    transl_dict = dict(zip(latin, greek))
-    str = re.sub(r'\*([abgdevzhqiklmncoprsjtufxyw])', lambda m: m.group(1).upper(), str) # *a → A
-    str = re.sub(r's\b', 'j', str) # Substitute sigma for sigma final when needed.
-    str = ''.join((transl_dict.has_key(x) and transl_dict[x] or x for x in str))
-    return BetaCode.betacode_accent(str)
-
   def run(self, edit):
+    """Main function, apply betacode_transl() to each selected region."""
     for region in self.view.sel():
-      substr = self.view.substr(region)
-      substr_beta = BetaCode.betacode_transl(substr)
-      self.view.replace(edit, region, substr_beta)
+      self.view.replace(edit, region, BetaCode.betacode_transl(self.view.substr(region)))
