@@ -9,7 +9,7 @@ Its syntax is based on [Beta Code][beta_code], but it differs from it in that:
   asterisk syntax still works.)
 * Lunate sigma is not supported, and final sigmas are used automatically when fit,
   though ‘j’ is also mapped to final sigma.
-* Macron is ‘_’, breve is ‘^’ and diaeresis is ‘+’.
+* Macron is ‘_’, breve is ‘^’ and diæresis is ‘+’.
 * ‘:’ becomes ‘·’.
 
 The full mapping can be clearly seen from the code:
