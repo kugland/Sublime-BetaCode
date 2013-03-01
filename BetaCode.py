@@ -92,5 +92,5 @@ class BetaCode(sublime_plugin.TextCommand):
 
   def run(self, edit):
     """Main function, apply betacode_transl() to each selected region."""
-    for region in self.view.sel():
+    for region in self.view.  sel():
       self.view.replace(edit, region, BetaCode.betacode_transl(self.view.substr(region)))
