@@ -1,7 +1,7 @@
 # coding=UTF-8
 
 # Sublime-BetaCode, a plugin that allows typing polytonic Greek into ST.
-# Copyright (C) 2003  André von Kugland <kugland@gmail.com>
+# Copyright (C) 2015  André von Kugland <kugland@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
