@@ -22,7 +22,7 @@ import sys, os
 # cf. http://theo.im/blog/2012/10/25/workaround-failed-to-import-unicodedata-in-sublime-text-2-under-windows/
 sys.path.append(os.path.dirname(sys.executable))
 
-import re, unicodedata
+import re, unicodedata, itertools
 
 # Usage example (taken from Plato, Rep. 6.508d)
 #
@@ -77,7 +77,7 @@ class BetaCode(sublime_plugin.TextCommand):
       ('^' , u'\u0306')  # Breve
     ]
     # Initialize translation dictionary.
-    transl_dict = dict(zip(latin, greek) + accents)
+    transl_dict = dict(itertools.chain(zip(latin, greek), accents))
     # Convert ‘*a’ to ‘A’
     str = re.sub(r'\*([a-z])', lambda m: m.group(1).upper(), str)
     # Substitute sigma for sigma final when needed.
