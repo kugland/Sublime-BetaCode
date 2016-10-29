@@ -51,7 +51,7 @@ class BetaCode(sublime_plugin.TextCommand):
 
     aspr = ''; dial = ''; tone = ''; iota = ''; qunt = ''
     str = match.group(0)
-    for i in xrange(0, len(str)):
+    for i in range(0, len(str)):
       if str[i] in ('(', ')')       : aspr = str[i]
       if str[i] == '+'              : dial = str[i]
       if str[i] in ('/', '\\', '=') : tone = str[i]
