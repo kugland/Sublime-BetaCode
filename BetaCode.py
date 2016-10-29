@@ -85,7 +85,7 @@ class BetaCode(sublime_plugin.TextCommand):
     # Normalize diacritics, i.e. reorder them and remove the superfluous ones.
     str = re.sub(r'[)(\\/=|_^+]+', BetaCode.diacritics_norm, str)
     # Translate using the transl_dict table.
-    str = ''.join((transl_dict.has_key(x) and transl_dict[x] or x for x in str))
+    str = ''.join((x in transl_dict and transl_dict[x] or x for x in str))
     # Unicode normalization, make chars precomposed whenever possible.
     str = unicodedata.normalize('NFKC', str)
     return str
