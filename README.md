@@ -1,6 +1,8 @@
 Sublime-BetaCode
 ================
 
+**This repository is archived because I don’t use Sublime Text anymore.**
+
 A plugin that allows typing [polytonic Greek][polytonic] into [Sublime Text][st].
 
 Its syntax is based on [Beta Code][beta_code], but it differs from it in that:
